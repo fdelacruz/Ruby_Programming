@@ -53,4 +53,28 @@ puts player3
 player3.w00t
 puts player3
 
+player = [player1, player2, player3]
+puts "\nThere are #{player.size} players in the game:\n"
+
+player.each do |p|
+  puts p
+  p.blam
+  p.w00t
+  p.w00t
+  puts p
+end
+
+player.pop
+
+player4 = Player.new("shemp",90)
+player.push(player4)
+
+player.each do |p|
+  puts p
+  p.blam
+  p.w00t
+  p.w00t
+  puts p
+end
+
 
