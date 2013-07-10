@@ -27,42 +27,42 @@ class Project
   end
 end
 
-project1 = Project.new("Project LMN", 3000, 500)
-puts project1
-project1.substract_funds
-puts project1
-puts "#{project1.name} is changing it'a name to Project ABC."
-project1.name = "Project ABC"
-puts project1
+class FundRequest
+  attr_reader :title
+  
+  def initialize(title)
+    @title = title
+    @projects = []
+  end
 
-project2 = Project.new("Project XYZ", 100, 25)
-puts project2
-project2.add_funds
-puts project2
-puts "#{project2.name} needs $#{project2.funding_needed} to reach its target of $#{project2.target}."
+  def add_project(a_project)
+    @projects << a_project
+  end
 
-project = [project1, project2]
-puts "There are #{project.size} projects:"
-project.each do |p|
-  puts "#{p.name} with $#{p.funding} and $#{p.funding_needed} to reach its target of #{p.target}."
-end
+  def request_funding
+    puts "\nThere are #{@projects.size} projects in #{@title}:\n"
 
-project.each do |p|
-  p.add_funds
-  p.add_funds
-  p.substract_funds
-  puts "#{p.name} with $#{p.funding} and $#{p.funding_needed} to reach its target of #{p.target}."
+    @projects.each do |p|
+      puts p
+    end
 
-  if p.funding < 100
-    puts "Removing #{p.name} for lack of funding."
-    project.delete(p)
+    @projects.each do |p|
+      p.add_funds
+      p.add_funds
+      p.substract_funds
+      puts p
+    end
   end
 end
 
-project3 = Project.new("Project TBD", 1001, 300)
+project1 = Project.new("Project LMN", 3000, 500)
+project2 = Project.new("Project XYZ", 100, 25)
+project3 = Project.new("Project TBD", 1000, 300)
 
-puts "Adding #{project3.name} with $#{project3.funding} in funding."
+vc_friendly = FundRequest.new("VC-Friendly Start-up Projects")
 
-project << project3
+vc_friendly.add_project(project1)
+vc_friendly.add_project(project2)
+vc_friendly.add_project(project3)
 
-puts project
+vc_friendly.request_funding

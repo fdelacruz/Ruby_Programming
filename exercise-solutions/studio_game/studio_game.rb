@@ -29,52 +29,51 @@ class Player
    "I'm #{@name} with a health of #{@health} and a score of #{score}" 
   end
 end
+ 
+class Game
+  attr_reader :title
+
+  def initialize(title)
+    @title = title
+    @players = []
+  end
+
+  def add_player(a_player)
+    @players << a_player
+  end
+
+  def play
+    puts "\nThere are #{@players.size} players in #{@title}:\n"
+    
+    @players.each do |p|
+      puts p
+    end
+   
+    @players.each do |p|
+      p.blam
+      p.w00t
+      p.w00t
+      puts p
+    end
+  end
+end
 
 player1 = Player.new("moe")
-puts player1
-puts player1.name
-puts player1.health
-puts player1.score
-
 player2 = Player.new("larry", 60)
-puts player2
-puts player2.name
-player2.name = "lawrence"
-puts player2
-puts player2.name
-puts player2.health
-puts player2.score
-puts player2
-
 player3 = Player.new("curly", 125)
-puts player3
-player3.blam
-puts player3
-player3.w00t
-puts player3
 
-player = [player1, player2, player3]
-puts "\nThere are #{player.size} players in the game:\n"
+knuckleheads = Game.new("Knuckleheads")
+knuckleheads.add_player(player1)
+knuckleheads.add_player(player2)
+knuckleheads.add_player(player3)
+knuckleheads.play
 
-player.each do |p|
-  puts p
-  p.blam
-  p.w00t
-  p.w00t
-  puts p
-end
+player4 = Player.new("alvin")
+player5 = Player.new("simon", 80)
+player6 = Player.new("theodore", 100)
 
-player.pop
-
-player4 = Player.new("shemp",90)
-player.push(player4)
-
-player.each do |p|
-  puts p
-  p.blam
-  p.w00t
-  p.w00t
-  puts p
-end
-
-
+chipmunks = Game.new("Chipmunks")
+chipmunks.add_player(player4)
+chipmunks.add_player(player5)
+chipmunks.add_player(player6)
+chipmunks.play
