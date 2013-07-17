@@ -1,5 +1,5 @@
 require_relative 'project'
-require_relative 'die'
+require_relative 'funding_round'
 
 class FundRequest
   attr_reader :title
@@ -16,19 +16,13 @@ class FundRequest
   def request_funding
     puts "\nThere are #{@projects.size} projects in #{@title}:\n"
 
-    @projects.each do |p|
-      puts p
+    @projects.each do |project|
+      puts project
     end
 
-    @projects.each do |p|
-      die = Die.new
-      number_rolled = die.roll
-      if number_rolled.odd?
-        p.substract_funds
-      else
-        p.add_funds
-      end
-      puts p
+    @projects.each do |project|
+      FundingRound.take_turn(project) 
+      puts project
     end
   end
 end
