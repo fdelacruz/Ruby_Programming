@@ -1,4 +1,5 @@
 require_relative 'project'
+require_relative 'die'
 
 class FundRequest
   attr_reader :title
@@ -20,9 +21,13 @@ class FundRequest
     end
 
     @projects.each do |p|
-      p.add_funds
-      p.add_funds
-      p.substract_funds
+      die = Die.new
+      number_rolled = die.roll
+      if number_rolled.odd?
+        p.substract_funds
+      else
+        p.add_funds
+      end
       puts p
     end
   end
