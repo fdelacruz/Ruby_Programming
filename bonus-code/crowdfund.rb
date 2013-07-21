@@ -6,10 +6,14 @@ project1 = Project.new("Project LMN", 3000, 500)
 project2 = Project.new("Project XYZ", 100, 25)
 project3 = Project.new("Project TBD", 1000, 300)
 
-vc_friendly = FundRequest.new("VC-Friendly Start-up Projects")
+projects = FundRequest.new("VC-Friendly Start-up Projects")
 
-vc_friendly.add_project(project1)
-vc_friendly.add_project(project2)
-vc_friendly.add_project(project3)
+puts projects.title
 
-vc_friendly.request_funding
+projects.add_project(project1)
+projects.add_project(project2)
+projects.add_project(project3)
+
+projects.request_funding(3)
+
+projects.print_results

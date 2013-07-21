@@ -2,7 +2,7 @@ require_relative 'die'
 require_relative 'project'
 
 module FundingRound
-  def self.take_turn(project)
+  def self.one_round(project)
       die = Die.new
       number_rolled = die.roll
       if number_rolled.odd?
@@ -10,6 +10,5 @@ module FundingRound
       else
         project.add_funds
       end
-      puts project
   end
 end

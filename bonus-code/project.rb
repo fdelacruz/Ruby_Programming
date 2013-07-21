@@ -22,6 +22,14 @@ class Project
     @target - @funding 
   end
 
+  def fully_funded?
+    funding_needed <= 0
+  end
+
+  def <=>(other)
+    other.funding_needed <=> funding_needed
+  end 
+
   def to_s
    "#{@name} has $#{@funding} in funding towards a goal of $#{@target}."
   end

@@ -15,7 +15,7 @@ describe FundRequest do
 
     @fundrequest.request_funding
    
-    @project.funding.should == @initial_funding + 25
+    @project.funding.should == @initial_funding + (25 * 2)
   end
 
   it "substracts funds from a project if an odd number is rolled" do
@@ -23,6 +23,6 @@ describe FundRequest do
 
     @fundrequest.request_funding
 
-    @project.funding.should == @initial_funding - 15
+    @project.funding.should == @initial_funding - (15 * 2)
   end
 end
