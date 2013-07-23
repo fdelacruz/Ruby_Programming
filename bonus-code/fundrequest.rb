@@ -1,9 +1,10 @@
 require_relative 'project'
 require_relative 'funding_round'
+require_relative 'pledge_pool'
 
 class FundRequest
   attr_reader :title
-  
+
   def initialize(title)
     @title = title
     @projects = []
@@ -20,15 +21,21 @@ class FundRequest
       puts project
     end
 
+    pledges =  PledgePool::PLEDGES
+    puts "\nThere are #{pledges.size} possible pledge amounts:"
+    pledges.each do |pledge|
+      puts "\t A #{pledge.name} pledge is worth $#{pledge.amount}"
+    end
+
     1.upto(rounds) do |round|
-      puts "\nRound: #{round}"
+      puts "\nFunding Round: #{round}"
       @projects.each do |project|
         FundingRound.one_round(project) 
-        # puts project
+        puts project
       end
     end
   end
- 
+
   def print_project_and_funding(project)
     puts "#{project.name} (#{project.funding})"
   end
@@ -37,7 +44,6 @@ class FundRequest
     fully_funded_projects = @projects.select { |project| project.fully_funded? }
     under_funded_projects = @projects.reject { |project| project.fully_funded? }
 
-    
     puts "\n#{fully_funded_projects.size} fully funded projects:"
     fully_funded_projects.each do |project|
       print_project_and_funding(project) 
