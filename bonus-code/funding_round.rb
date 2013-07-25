@@ -4,16 +4,15 @@ require_relative 'pledge_pool'
 
 module FundingRound
   def self.one_round(project)
-      die = Die.new
-      number_rolled = die.roll
-      if number_rolled.odd?
-        project.substract_funds
-      else
-        project.add_funds
-      end
+    die = Die.new
+    number_rolled = die.roll
+    if number_rolled.odd?
+      project.substract_funds
+    else
+      project.add_funds
+    end
 
-      pledge = PledgePool.random
-      puts "#{project.name} received a #{pledge.name} pledge worth $#{pledge.amount}."
+    pledge = PledgePool.random
+    project.received_pledges(pledge)
   end
-
 end
