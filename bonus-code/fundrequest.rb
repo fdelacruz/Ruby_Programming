@@ -3,6 +3,7 @@ require_relative 'funding_round'
 require_relative 'pledge_pool'
 
 class FundRequest
+
   attr_reader :title
 
   def initialize(title)
@@ -58,6 +59,14 @@ class FundRequest
     under_funded_projects.sort.each do |project|
       formatted_name = project.name.ljust(20, '.')
       puts "#{formatted_name} $#{project.funding_needed}"
+    end
+
+    @projects.each do |project|
+      puts "\n#{project.name}'s pledges:"
+      project.each_received_pledge do |pledge|
+        puts "$#{pledge.amount} in #{pledge.name} pledges"
+      end
+      puts "$#{project.pledges} in total pledges"
     end
   end
 

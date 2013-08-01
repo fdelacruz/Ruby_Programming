@@ -3,6 +3,7 @@ require_relative 'game_turn'
 require_relative 'treasure_trove'
 
 class Game
+
   attr_reader :title
 
   def initialize(title)
@@ -58,16 +59,20 @@ class Game
       print_name_and_health(player) 
     end
 
+    puts "\n#{total_points} total points from treasures found"
+    @players.sort.each do |player|
+      puts "\n#{player.name}'s point totals:"
+      player.each_found_treasure do |treasure|
+        puts "#{treasure.points} total #{treasure.name} points"
+      end
+      puts "#{player.points} grand total points"
+    end
+
     puts "\n#{@title} High Scores:"
     @players.sort.each do |player|
       formatted_name = player.name.ljust(20, '.')
       puts "#{formatted_name} #{player.score}"
     end
-    
-    puts "\n#{total_points} total points from treasures found"
-    @players. each do |player|
-      puts "\n#{player.name}'s points totals:"
-      puts "#{player.points} grand total points"
-    end
   end
+
 end
