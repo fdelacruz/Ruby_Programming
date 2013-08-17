@@ -117,4 +117,12 @@ describe Player do
     ]
   end
 
+  it "it creates a Player from a CSV" do 
+    player = Player.from_csv("larry, 100")
+
+    player.name.should == "Larry"
+    player.health.should == 100
+  end
+
 end
+

@@ -1,6 +1,7 @@
 require_relative 'treasure_trove'
 
 class Player
+
   attr_reader :health
   attr_accessor :name
 
@@ -54,6 +55,11 @@ class Player
     @found_treasures.each do |name, points|
       yield Treasure.new(name, points)
     end
+  end
+
+  def self.from_csv(str)
+    name, health = str.split(",")
+    new(name, Integer(health))            #CLEVER, just new(...) instead of Player.new(...) which is already calling the method inside Game
   end
 
 end

@@ -7,13 +7,20 @@ project2 = Project.new("Project XYZ", 100, 25)
 project3 = Project.new("Project TBD", 1000, 300)
 
 projects = FundRequest.new("VC-Friendly Start-up Projects")
+projects.load_projects(ARGV.shift || "projects.csv")
 
-puts projects.title
+loop do
+  puts "\nHow many funding rounds? ('quit' to exit)"
+  answer = gets.chomp.downcase
+  case answer
+  when /^\d+$/
+    projects.request_funding(answer.to_i)
+  when 'quit', 'exit'
+    projects.print_results
+    break
+  else
+    puts "Please enter a number or 'quit'"
+  end
+end
 
-projects.add_project(project1)
-projects.add_project(project2)
-projects.add_project(project3)
-
-projects.request_funding(3)
-
-projects.print_results
+projects.save_under_funded_projects

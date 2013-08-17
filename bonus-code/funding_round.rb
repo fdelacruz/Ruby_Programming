@@ -13,6 +13,6 @@ module FundingRound
     end
 
     pledge = PledgePool.random
-    project.received_pledges(pledge)
+    project.received_pledge(pledge)
   end
 end

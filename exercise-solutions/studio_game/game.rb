@@ -1,6 +1,7 @@
 require_relative 'player'
 require_relative 'game_turn'
 require_relative 'treasure_trove'
+require 'CSV'
 
 class Game
 
@@ -23,6 +24,9 @@ class Game
     end
 
     1.upto(rounds) do |round|
+      if block_given?
+        break if yield     #BONUS ROUND: Alternative Ending from previous exercise, custom iterators
+      end
       puts "\nRound: #{round}"
       @players.each do |player|
         GameTurn.take_turn(player) 
@@ -42,6 +46,11 @@ class Game
 
   def print_name_and_health(player)
     puts "#{player.name} (#{player.health})"
+  end
+
+  def high_score_entry(player)
+    formatted_name = player.name.ljust(20, '.')
+    "#{formatted_name} #{player.score}"
   end
 
   def print_stats
@@ -70,8 +79,24 @@ class Game
 
     puts "\n#{@title} High Scores:"
     @players.sort.each do |player|
-      formatted_name = player.name.ljust(20, '.')
-      puts "#{formatted_name} #{player.score}"
+      puts high_score_entry(player)
+    end
+  end
+
+  def load_players(from_file)
+    # File.readlines(from_file).each do |line|
+    CSV.foreach(from_file) do |row|     #BONUS: Ruby Standard Library
+      # add_player(Player.from_csv(line))
+      add_player(Player.new(row[0], row[1].to_i))
+    end
+  end
+
+  def save_high_scores(to_file="high_scores.txt")
+    File.open(to_file, "w") do |file|
+      file.puts "#{@title} High Scores:"
+      @players.sort.each do |player|
+        file.puts high_score_entry(player)
+      end
     end
   end
 

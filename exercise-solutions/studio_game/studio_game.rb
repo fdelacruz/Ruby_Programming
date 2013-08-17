@@ -1,24 +1,23 @@
 require_relative 'player'
 require_relative 'game'
 
-player1 = Player.new("moe")
-player2 = Player.new("larry", 60)
-player3 = Player.new("curly", 125)
-
 knuckleheads = Game.new("Knuckleheads")
-knuckleheads.add_player(player1)
-knuckleheads.add_player(player2)
-knuckleheads.add_player(player3)
-knuckleheads.play(3)
-knuckleheads.print_stats
+knuckleheads.load_players(ARGV.shift || "players.csv")
 
-player4 = Player.new("alvin")
-player5 = Player.new("simon", 80)
-player6 = Player.new("theodore", 100)
+loop do
+  puts "\nHow many game rounds? ('quit' to exit)"
+  answer = gets.chomp.downcase
+  case answer
+  when /^\d+$/
+    knuckleheads.play(answer.to_i) do
+      knuckleheads.total_points >= 2000     #BONUS ROUND: Alternative Ending from previous exercise, custom iterators
+    end
+  when 'quit', 'exit'
+    knuckleheads.print_stats
+    break
+  else
+    puts "Please enter a number or 'quit'"
+  end
+end
 
-chipmunks = Game.new("Chipmunks")
-chipmunks.add_player(player4)
-chipmunks.add_player(player5)
-chipmunks.add_player(player6)
-chipmunks.play(3)
-chipmunks.print_stats
+knuckleheads.save_high_scores

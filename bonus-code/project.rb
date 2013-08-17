@@ -30,10 +30,6 @@ class Project
     funding_needed <= 0
   end
 
-  def <=>(other)
-    other.funding_needed <=> funding_needed
-  end 
-
   def to_s
     "#{@name} has $#{@funding} in funding towards a goal of $#{@target}."
   end

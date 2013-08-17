@@ -1,6 +1,7 @@
 require_relative 'project'
 require_relative 'funding_round'
 require_relative 'pledge_pool'
+require 'CSV'
 
 class FundRequest
 
@@ -37,28 +38,37 @@ class FundRequest
     end
   end
 
-  def print_project_and_funding(project)
-    puts "#{project.name} (#{project.funding})"
+  def print_name(project)
+    puts "#{project.name}"
+  end
+
+  def fully_funded_projects 
+    @projects.select { |project| project.fully_funded? }
+  end
+
+  def under_funded_projects 
+    @projects.reject { |project| project.fully_funded? }
+  end
+
+  def sorted_under_funded_projects
+    under_funded_projects.sort { |a, b| b.funding_needed <=> a.funding_needed }
   end
 
   def print_results
-    fully_funded_projects = @projects.select { |project| project.fully_funded? }
-    under_funded_projects = @projects.reject { |project| project.fully_funded? }
-
     puts "\n#{fully_funded_projects.size} fully funded projects:"
     fully_funded_projects.each do |project|
-      print_project_and_funding(project) 
+      print_name(project) 
     end
 
     puts "\n#{under_funded_projects.size} under funded projects:"
     under_funded_projects.each do |project|
-      print_project_and_funding(project) 
+      print_name(project) 
     end
 
     puts "\n#{under_funded_projects.size} projects still need your help:"
-    under_funded_projects.sort.each do |project|
+    sorted_under_funded_projects.each do |project|
       formatted_name = project.name.ljust(20, '.')
-      puts "#{formatted_name} $#{project.funding_needed}"
+      puts "#{formatted_name} $#{project.funding_needed} under"
     end
 
     @projects.each do |project|
@@ -67,6 +77,22 @@ class FundRequest
         puts "$#{pledge.amount} in #{pledge.name} pledges"
       end
       puts "$#{project.pledges} in total pledges"
+    end
+  end
+
+  def load_projects(from_file)
+    CSV.foreach(from_file) do |row|     #BONUS: Ruby Standard Library
+      add_project(Project.new(row[0], row[1].to_i, row[2].to_i))
+    end
+  end
+
+  def save_under_funded_projects(to_file="under_funded_projects.txt")
+    File.open(to_file, "w") do |file|
+      file.puts "\nProjects that need funding:"
+      sorted_under_funded_projects.each do |project|
+        formatted_name = project.name.ljust(20, '.')
+        file.puts "#{formatted_name} $#{project.funding_needed} under"
+      end
     end
   end
 
