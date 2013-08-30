@@ -1,33 +1,17 @@
+require_relative 'fundable'
 require_relative 'pledge_pool'
 
 class Project
+  include Fundable
 
   attr_accessor :name
-  attr_reader :funding, :target
+  attr_accessor :funding, :target
 
   def initialize(name, target_funding_amount, funding=0)
     @name = name
     @target = target_funding_amount
     @funding = funding
     @received_pledge = Hash.new(0)
-  end
-
-  def add_funds
-    @funding += 25
-    puts "#{@name} got some funds!"
-  end
-
-  def substract_funds
-    @funding -= 15
-    puts "#{@name} lost some funds!"
-  end
-
-  def funding_needed
-    @target - total_funds
-  end
-
-  def fully_funded?
-    funding_needed <= 0
   end
 
   def to_s
@@ -44,14 +28,9 @@ class Project
     @received_pledge.values.reduce(0, :+)
   end
 
-  def total_funds
-    @funding + pledges
-  end
-
   def each_received_pledge
     @received_pledge.each do |name, amount|
       yield Pledge.new(name, amount)
     end
   end
-
 end
